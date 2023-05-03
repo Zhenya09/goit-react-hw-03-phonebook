@@ -1,6 +1,6 @@
-import { Component } from 'react'; 
-import css from './ContactForm.module.css'; 
-import PropTypes from 'prop-types'; 
+import { Component } from 'react';
+import css from './ContactForm.module.css';
+import PropTypes from 'prop-types';
 
 export class ContactForm extends Component {
   state = {
@@ -13,8 +13,14 @@ export class ContactForm extends Component {
   };
 
   onChangeInput = evt => {
-    const { name, value } = evt.currentTarget; 
-    this.setState({ [name]: value }); 
+    const { name, value } = evt.currentTarget;
+    this.setState({ [name]: value });
+  };
+
+  onSubmitForm = evt => {
+    evt.preventDefault();
+    this.props.addContact({...this.state}); 
+    this.resetForm();
   };
 
   render() {
@@ -22,20 +28,15 @@ export class ContactForm extends Component {
       <>
         <form
           className={css.formstyle}
-
-          onSubmit={evt => {
-            evt.preventDefault();
-            this.props.addContact(this.state);
-            this.resetForm(); 
-          }}
+          onSubmit={this.onSubmitForm}
         >
           <label className={css.label}>
             Name
             <br />
             <input
               className={css.input}
-              onChange={this.onChangeInput} 
-              value={this.state.name} 
+              onChange={this.onChangeInput}
+              value={this.state.name}
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -49,8 +50,8 @@ export class ContactForm extends Component {
             <br />
             <input
               className={css.input}
-              onChange={this.onChangeInput} 
-              value={this.state.number} 
+              onChange={this.onChangeInput}
+              value={this.state.number}
               type="tel"
               name="number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -69,7 +70,7 @@ export class ContactForm extends Component {
 }
 
 ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired, 
+  addContact: PropTypes.func.isRequired,
 }
 
 
