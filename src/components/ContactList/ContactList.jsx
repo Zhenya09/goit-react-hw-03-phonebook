@@ -1,13 +1,18 @@
-import PropTypes from 'prop-types'; 
-import css from './ContactList.module.css'; 
+import PropTypes from 'prop-types';
+import css from './ContactList.module.css';
 
-const ContactList = ({ contacts }) => {
+const ContactList = ({ contacts, delContact }) => {
+  const handleDelete = id => {
+    delContact(id);
+  };
+
   return (
     <ul className={css.list}>
       {contacts.map(contact => {
         return (
-          <li key={contact.id}>
+          <li className={css.item} key={contact.id}>
             {contact.name}: {contact.number}
+            <button onClick={() => handleDelete(contact.id)}>Delete</button>
           </li>
         );
       })}
@@ -23,6 +28,7 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ).isRequired,
+  delContact: PropTypes.func.isRequired,
 };
 
 export default ContactList;
